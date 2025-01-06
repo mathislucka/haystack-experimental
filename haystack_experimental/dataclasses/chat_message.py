@@ -121,6 +121,22 @@ class ChatMessage:
         return [content.text for content in self._content if isinstance(content, TextContent)]
 
     @property
+    def media(self) -> List[ByteStream]:
+        """
+        Returns the list of all media content contained in the message.
+        """
+        return [content.data for content in self._content if isinstance(content, MediaContent)]
+
+    @property
+    def media_content(self) -> Optional[ByteStream]:
+        """
+        Returns the first media content in the message.
+        """
+        if media := self.media:
+            return media[0]
+        return None
+
+    @property
     def text(self) -> Optional[str]:
         """
         Returns the first text contained in the message.
