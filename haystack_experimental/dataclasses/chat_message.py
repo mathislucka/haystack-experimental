@@ -189,17 +189,26 @@ class ChatMessage:
     @classmethod
     def from_user(
         cls,
-        text: str,
+        text: Optional[str] = None,
+        media: Optional[ByteStream] = None,
         meta: Optional[Dict[str, Any]] = None,
     ) -> "ChatMessage":
         """
         Create a message from the user.
 
         :param text: The text content of the message.
+        :param media: Optional media content (image, audio, or PDF).
         :param meta: Additional metadata associated with the message.
         :returns: A new ChatMessage instance.
         """
-        return cls(_role=ChatRole.USER, _content=[TextContent(text=text)], _meta=meta or {})
+        content: List[ChatMessageContentT] = []
+        if text is not None:
+            content.append(TextContent(text=text))
+        if media is not None:
+            content.append(MediaContent(data=media))
+        if not content:
+            raise ValueError("At least one of text or media must be provided")
+        return cls(_role=ChatRole.USER, _content=content, _meta=meta or {})
 
     @classmethod
     def from_system(
