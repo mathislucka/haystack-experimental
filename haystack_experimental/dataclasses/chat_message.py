@@ -320,6 +320,12 @@ class ChatMessage:
         for part in data["_content"]:
             if "text" in part:
                 content.append(TextContent(text=part["text"]))
+            elif "media" in part:
+                byte_stream = ByteStream.from_base64(
+                    part["media"]["data"],
+                    part["media"]["mime_type"]
+                )
+                content.append(MediaContent(data=byte_stream))
             elif "tool_call" in part:
                 content.append(ToolCall(**part["tool_call"]))
             elif "tool_call_result" in part:
