@@ -68,7 +68,18 @@ class TextContent:
     text: str
 
 
-ChatMessageContentT = Union[TextContent, ToolCall, ToolCallResult]
+@dataclass
+class MediaContent:
+    """
+    The binary media content of a chat message, such as images, audio, or PDFs.
+
+    :param data: The binary data stream containing the media content
+    """
+
+    data: ByteStream
+
+
+ChatMessageContentT = Union[TextContent, MediaContent, ToolCall, ToolCallResult]
 
 
 @dataclass
