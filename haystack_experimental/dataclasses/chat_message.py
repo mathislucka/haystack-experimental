@@ -286,6 +286,13 @@ class ChatMessage:
         for part in self._content:
             if isinstance(part, TextContent):
                 content.append({"text": part.text})
+            elif isinstance(part, MediaContent):
+                content.append({
+                    "media": {
+                        "data": part.data.to_base64(),
+                        "mime_type": part.data.mime_type
+                    }
+                })
             elif isinstance(part, ToolCall):
                 content.append({"tool_call": asdict(part)})
             elif isinstance(part, ToolCallResult):
