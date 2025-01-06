@@ -6,6 +6,8 @@ from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any, Dict, List, Optional, Sequence, Union
 
+from .byte_stream import ByteStream
+
 
 class ChatRole(str, Enum):
     """
